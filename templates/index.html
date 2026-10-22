@@ -1,0 +1,361 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Rose & Ride | Bike Rentals</title>
+
+
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Georgia, serif;
+            background: #FAF6F1;
+            color: #38251F;
+        }
+
+        nav {
+            padding: 25px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #E9DDD2;
+        }
+
+        .logo {
+            font-size: 25px;
+            letter-spacing: 3px;
+            color: #8E5558;
+        }
+
+        nav a {
+            color: #38251F;
+            text-decoration: none;
+            margin-left: 25px;
+            font-size: 13px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 75px 20px 55px;
+        }
+
+        .hero p {
+            color: #B77B7D;
+            letter-spacing: 4px;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 6vw, 64px);
+            font-weight: normal;
+            margin-bottom: 18px;
+        }
+
+        .hero .subtitle {
+            color: #806D64;
+            letter-spacing: 0;
+            font-size: 16px;
+        }
+
+        .collection {
+            padding: 25px 8% 80px;
+        }
+
+        .collection h2 {
+            text-align: center;
+            font-weight: normal;
+            font-size: 30px;
+            margin-bottom: 35px;
+        }
+
+        .bikes {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit, minmax(230px, 1fr)
+            );
+            gap: 25px;
+        }
+
+        .bike-card {
+            background: white;
+            border: 1px solid #E9DDD2;
+            padding: 30px 25px;
+            transition: transform 0.2s;
+        }
+
+        .bike-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .bike-icon {
+            font-size: 38px;
+            margin-bottom: 20px;
+        }
+
+        .bike-card h3 {
+            font-size: 23px;
+            font-weight: normal;
+            margin-bottom: 12px;
+        }
+
+        .bike-id {
+            color: #927D71;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        .price {
+            font-size: 24px;
+            margin-bottom: 18px;
+        }
+
+        .price span {
+            font-size: 13px;
+            color: #927D71;
+        }
+
+        .availability {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            margin-bottom: 15px;
+        }
+
+        .available {
+            color: #47734D;
+        }
+
+        .unavailable {
+            color: #A34C4C;
+        }
+
+        .status-note {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            color: #927D71;
+        }
+
+        .bike-card input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 12px;
+            border: 1px solid #E9DDD2;
+            background: #FAF6F1;
+            color: #38251F;
+            font-family: Arial, sans-serif;
+            border-radius: 2px;
+        }
+
+        .bike-card button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 14px;
+            border: none;
+            background: #38251F;
+            color: white;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .bike-card button:hover:not(:disabled) {
+            background: #8E5558;
+        }
+
+        .bike-card button:disabled {
+            background: #D6CBC3;
+            color: #806D64;
+            cursor: not-allowed;
+        }
+
+        footer {
+            text-align: center;
+            padding: 28px;
+            border-top: 1px solid #E9DDD2;
+            color: #806D64;
+            font-size: 12px;
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav a {
+                margin: 0 8px;
+            }
+
+            .hero {
+                padding: 55px 15px 40px;
+            }
+        }
+
+        .history-button {
+    display: inline-block;
+    margin: 15px 0 25px;
+    padding: 12px 22px;
+    background: #8b5947;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: background 0.2s ease;
+}
+
+.history-button:hover {
+    background: #684031;
+}
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">ROSE & RIDE</div>
+
+         <a href="/history" class="history-button">
+            View Rental History
+         </a>
+
+
+        <div>
+            <a href="/">HOME</a>
+            <a href="#collection">THE COLLECTION</a>
+            <a href="#about">ABOUT</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <p>YOUR NEXT JOURNEY BEGINS HERE</p>
+
+        <h1>Every ride tells a story.</h1>
+
+        <div class="subtitle">
+            Discover your perfect ride, one journey at a time.
+        </div>
+    </section>
+
+    <section class="collection" id="collection">
+        <h2>The Collection</h2>
+
+        <div class="bikes">
+
+            {% for bike in bikes %}
+
+            <div class="bike-card">
+
+                <div class="bike-icon">
+                    {% if 'Electric' in bike[1] %}
+                        ⚡
+                    {% elif 'Mountain' in bike[1] %}
+                        🚵
+                    {% else %}
+                        🚲
+                    {% endif %}
+                </div>
+
+                <h3>{{ bike[1] }}</h3>
+
+                <div class="bike-id">
+                    BIKE NO. {{ bike[0] }}
+                </div>
+
+                <div class="price">
+                    ₹{{ "%.2f"|format(bike[2]|float) }}
+                    <span>/ hour</span>
+                </div>
+
+                {% if bike[3] %}
+
+                    <div class="availability available">
+                        ● Available for rent
+                    </div>
+
+                {% else %}
+
+                    <div class="availability unavailable">
+                        ● Currently rented
+                    </div>
+
+                {% endif %}
+
+                <div class="status-note">
+                    Live availability from our database
+                </div>
+
+
+
+                {% if bike[3] %}
+
+                    <form
+                        action="/rent/{{ bike[0] }}"
+                        method="POST"
+                    >
+
+                        <input
+                            type="text"
+                            name="customer_name"
+                            placeholder="Your full name"
+                            maxlength="100"
+                            required
+                        >
+
+                        <input
+                            type="tel"
+                            name="customer_phone"
+                            placeholder="Your 10-digit phone number"
+                            pattern="[0-9]{10}"
+                            minlength="10"
+                            maxlength="10"
+                            required
+                        >
+
+                        <button type="submit">
+                            Rent This Bike
+                        </button>
+
+                    </form>
+
+                {% else %}
+
+                    <form
+                        action="/return/{{bike[0]}}"
+                        method="POST"
+                        onsubmit="return confirm('Confirm that this bike has been returned?');"
+                    >
+                        <button type="submit">
+                            Return Bike
+                        </button>
+                    </form>
+
+                {% endif %}
+
+            </div>
+
+            {% else %}
+
+                <p>No bikes found in the database.</p>
+
+            {% endfor %}
+
+        </div>
+    </section>
+
+    <footer id="about">
+        ROSE & RIDE — Bike Rental Management System
+        <br><br>
+        Built with Python, Flask & PostgreSQL
+    </footer>
+
+</body>
+</html>

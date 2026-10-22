@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Rental Receipt | Rose & Ride</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            background: #f8f0e9;
+            color: #4a3028;
+            font-family: Arial, sans-serif;
+        }
+
+        .receipt {
+            max-width: 480px;
+            margin: 30px auto;
+            padding: 35px;
+            background: #fffaf5;
+            border: 1px solid #d6b39c;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px #4a302820;
+        }
+
+        h1 {
+            text-align: center;
+            color: #a66b55;
+            letter-spacing: 3px;
+        }
+
+        .subtitle {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #8b7064;
+        }
+
+        .line {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 14px 0;
+            border-bottom: 1px solid #eadbd0;
+        }
+
+        .total {
+            margin-top: 15px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #a66b55;
+        }
+
+        .thanks {
+            text-align: center;
+            margin-top: 30px;
+            line-height: 1.6;
+        }
+
+        .button {
+            display: block;
+            margin-top: 25px;
+            padding: 14px;
+            background: #8b5947;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .button:hover {
+            background: #684031;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="receipt">
+        <h1>ROSE & RIDE</h1>
+        <p class="subtitle">BIKE RENTAL RECEIPT</p>
+
+        <div class="line">
+            <span>Bike</span>
+            <strong>{{ bike_name }}</strong>
+        </div>
+
+        <div class="line">
+            <span>Rented at</span>
+            <strong>{{ rented_at.strftime('%d %b %Y, %I:%M %p') }}</strong>
+        </div>
+
+        <div class="line">
+            <span>Returned at</span>
+            <strong>{{ returned_at.strftime('%d %b %Y, %I:%M %p') }}</strong>
+        </div>
+
+        <div class="line">
+            <span>Rental duration</span>
+            <strong>{{ hours }} hour(s)</strong>
+        </div>
+
+        <div class="line">
+            <span>Price per hour</span>
+            <strong>₹{{ price_per_hour }}</strong>
+        </div>
+
+        <div class="line total">
+            <span>Total payable</span>
+            <strong>₹{{ total_cost }}</strong>
+        </div>
+
+        <div class="thanks">
+            <p>Thank you for riding with us!</p>
+            <p>We hope to see you again.</p>
+        </div>
+
+        <a href="/" class="button">Back to Home</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,318 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Rental History | Rose & Ride</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px 20px;
+            background: #f8f0e9;
+            color: #4a3028;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #a66b55;
+            letter-spacing: 3px;
+        }
+
+        .subtitle {
+            color: #8b7064;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            background: #fffaf5;
+            border: 1px solid #e5cfc0;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px #4a302815;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        th, td {
+            padding: 15px 12px;
+            text-align: left;
+            border-bottom: 1px solid #eadbd0;
+        }
+
+        th {
+            background: #8b5947;
+            color: white;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tr:hover td {
+            background: #fcf1e9;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .returned {
+            background: #e2eee2;
+            color: #38633b;
+        }
+
+        .rented {
+            background: #f7e7ce;
+            color: #865d21;
+        }
+
+        .amount {
+            font-weight: bold;
+            color: #a66b55;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 35px;
+            color: #8b7064;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 13px 22px;
+            background: #8b5947;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .back-button:hover {
+            background: #684031;
+        }
+
+        footer {
+            text-align: center;
+        }
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: #fffaf5;
+    border: 1px solid #e5cfc0;
+    border-radius: 12px;
+    padding: 24px 18px;
+    box-shadow: 0 5px 18px #4a302810;
+}
+
+.stat-card p {
+    color: #8b7064;
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.stat-card h2 {
+    color: #a66b55;
+    font-size: 28px;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 750px) {
+    .dashboard {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 400px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+}
+
+.search-box {
+    margin-bottom: 25px;
+}
+
+.search-box form {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.search-box input {
+    flex: 1;
+    min-width: 200px;
+    padding: 13px 15px;
+    border: 1px solid #e5cfc0;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+}
+
+.search-box input:focus {
+    border-color: #a66b55;
+}
+
+.search-box button,
+.search-box a {
+    padding: 13px 20px;
+    border: none;
+    border-radius: 8px;
+    background: #a66b55;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.search-box a {
+
+    background: #8b7064;
+}
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <header>
+            <h1>ROSE & RIDE</h1>
+            <p class="subtitle">Your Complete Rental History</p>
+        </header>
+
+<div class="search-box">
+    <form action="/history" method="GET">
+        <input
+            type="text"
+            name="search"
+            placeholder="Search by customer name or phone number..."
+            value="{{ request.args.get('search', '') }}"
+        >
+        <button type="submit">Search</button>
+        <a href="/history">Clear</a>
+    </form>
+</div>
+
+<div class="dashboard">
+
+
+<div class="stat-card">
+    <p>Total Rentals</p>
+    <h2>{{ stats[0] }}</h2>
+</div>
+
+
+    <div class="stat-card">
+        <p>Completed Rentals</p>
+        <h2>{{ stats[1] }}</h2>
+    </div>
+
+    <div class="stat-card">
+        <p>Currently Rented</p>
+        <h2>{{ stats[2] }}</h2>
+    </div>
+
+    <div class="stat-card">
+        <p>Total Revenue</p>
+        <h2>₹{{ "%.2f"|format(stats[3]|float) }}</h2>
+    </div>
+
+</div>
+
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rental ID</th>
+                        <th>Bike</th>
+                        <th>Customer</th>
+                        <th>Phone</th>
+                        <th>Rented At</th>
+                        <th>Returned At</th>
+                        <th>Status</th>
+                        <th>Total Bill</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for rental in rentals %}
+                    <tr>
+                        <td>#{{ rental[0] }}</td>
+                        <td>{{ rental[1] }}</td>
+                        <td>{{ rental[2] }}</td>
+                        <td>{{ rental[3] }}</td>
+
+                        <td>
+                            {{ rental[4].strftime('%d %b %Y, %I:%M %p') if rental[4] else '-' }}
+                        </td>
+
+                        <td>
+                            {{ rental[5].strftime('%d %b %Y, %I:%M %p') if rental[5] else '-' }}
+                        </td>
+
+                        <td>
+                            {% if rental[6] == 'Returned' %}
+                                <span class="status returned">Returned</span>
+                            {% else %}
+                                <span class="status rented">Rented</span>
+                            {% endif %}
+                        </td>
+
+                        <td class="amount">
+                            {% if rental[7] is not none %}
+                                ₹{{ rental[7] }}
+                            {% elif rental[6] == 'Rented' %}
+                                Not returned yet
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="8" class="empty">
+                            No rental records found yet.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+            <a href="/" class="back-button">← Back to Home</a>
+        </footer>
+
+    </div>
+</body>
+</html>
