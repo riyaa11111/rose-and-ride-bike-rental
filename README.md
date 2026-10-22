@@ -1,60 +1,71 @@
-# 🌹 Rose & Ride — Bike Rental Management System
+# 🚲 Rose & Ride — Bike Rental Management System
 
-A web-based bike rental management system built with **Python, Flask, PostgreSQL, HTML, and CSS**. Rose & Ride allows users to view available bikes, rent and return bikes, calculate rental charges, generate receipts, and track rental history through a dashboard.
+A web-based bike rental management system built with **Python, Flask, and PostgreSQL**. Rose & Ride allows users to view available bikes, rent and return bikes, calculate rental charges, generate receipts, and track rental history.
+
+🔗 **Live Demo:** [Open Rose & Ride](https://rose-and-ride-bike-rental.onrender.com)
+
+💻 **Source Code:** [GitHub Repository](https://github.com/riyaa11111/rose-and-ride-bike-rental)
+
+---
 
 ## ✨ Features
 
-- **Bike Listing:** View bikes, hourly rental prices, and availability.
-- **Bike Rental:** Rent a bike by entering customer details.
-- **Bike Return:** Return rented bikes and automatically calculate rental charges.
-- **Billing & Receipts:** Generate a receipt with rental duration, hourly rate, and total cost.
-- **Rental History:** View previous and current rental records.
-- **Search Functionality:** Search rental records by customer name or phone number.
-- **Dashboard Statistics:** View total rentals, completed rentals, active rentals, and total revenue.
-- **Database Integration:** Store and manage bike and rental records using PostgreSQL.
+- 🚲 **Bike Availability:** View bikes, hourly rates, and availability.
+- 📝 **Bike Rentals:** Record customer details and rent available bikes.
+- 🔄 **Bike Returns:** Process returns and update bike availability.
+- 💰 **Automated Billing:** Calculate rental charges based on the rental duration and hourly rate.
+- 🧾 **Digital Receipts:** View rental and billing details.
+- 📋 **Rental History:** Review previous rental records.
+- 🔍 **Customer Search:** Search rental records using customer name or phone number.
+- 📊 **Dashboard Statistics:** View key rental information.
+- 🗄️ **Persistent Database:** Store bike and rental records in PostgreSQL.
 
-## 🛠️ Technologies Used
+
+## 🛠️ Tech Stack
 
 | Technology | Purpose |
 |---|---|
-| Python | Application logic and billing calculations |
-| Flask | Web application framework |
+| Python | Application logic |
+| Flask | Web framework and routing |
+| HTML / CSS | Website interface |
 | PostgreSQL | Relational database |
-| Psycopg2 | Python–PostgreSQL connection |
-| python-dotenv | Load database configuration from environment variables |
-| HTML | Web page structure |
-| CSS | Styling and layout |
-| Jinja2 | Dynamic HTML templates |
+| psycopg2 | PostgreSQL connectivity |
+| python-dotenv | Local environment configuration |
+| Gunicorn | Production application server |
+| Render | Web application hosting |
+| Neon | Cloud PostgreSQL hosting |
+| Git & GitHub | Version control and source code management |
 
-## 📁 Project Structure
+## 🏗️ Architecture
 
 ```text
-PythonProject2Bike/
-│
-├── app.py                 # Main Flask application
-├── database.py            # PostgreSQL connection
-├── BikeRentalSystem.py    # Additional Python project module
-├── main.py                # Additional Python entry-point module
-├── requirements.txt       # Python dependencies
-├── .gitignore             # Excludes private and unnecessary files
-├── .env                   # Local database configuration (not committed)
-│
-└── templates/
-    ├── index.html         # Homepage and bike listings
-    ├── receipt.html       # Rental receipt
-    └── history.html       # Rental history and dashboard
+User's Browser
+      |
+      v
+Flask Web Application
+      |
+      v
+PostgreSQL Database
+   (Neon Cloud)
 ```
 
-## ⚙️ Prerequisites
+The application is deployed on Render, while Neon provides the cloud database.
 
-Before running the project, install:
+## 🚀 Live Application
 
-- Python 3.10 or a compatible version
-- PostgreSQL
-- Git
-- A code editor such as PyCharm
+Try the deployed application:
 
-## 🚀 Installation and Setup
+**[https://rose-and-ride-bike-rental.onrender.com](https://rose-and-ride-bike-rental.onrender.com)**
+
+Note: The free web service may take a little time to wake up after a period of inactivity.
+
+## 💻 Run Locally
+
+### Prerequisites
+
+- Python installed
+- Git installed
+- A PostgreSQL database, such as a Neon project
 
 ### 1. Clone the repository
 
@@ -63,15 +74,12 @@ git clone https://github.com/riyaa11111/rose-and-ride-bike-rental.git
 cd rose-and-ride-bike-rental
 ```
 
-### 2. Create a virtual environment
+### 2. Create and activate a virtual environment
 
-```bash
-python -m venv .venv
-```
-
-Activate it on Windows PowerShell:
+On Windows PowerShell:
 
 ```powershell
+py -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
@@ -81,31 +89,19 @@ Activate it on Windows PowerShell:
 python -m pip install -r requirements.txt
 ```
 
-### 4. Create the PostgreSQL database
+### 4. Configure environment variables
 
-Open PostgreSQL or pgAdmin and create a database named:
+Create a `.env` file in the project root:
 
-```sql
-CREATE DATABASE bike_rental_db;
+```text
+DATABASE_URL=your_postgresql_connection_string
 ```
 
-Create the `bikes` and `rentals` tables using the schema provided in the project documentation or your database setup. The `rentals` table should reference `bikes` through `bike_id`.
+Replace the placeholder with your own PostgreSQL connection string. Keep the connection string private and never commit `.env` to GitHub.
 
-### 5. Configure environment variables
+### 5. Set up the database
 
-Create a local `.env` file in the project root. Add your own PostgreSQL credentials:
-
-```dotenv
-DB_HOST=localhost
-DB_NAME=bike_rental_db
-DB_USER=postgres
-DB_PASSWORD=YOUR_LOCAL_DATABASE_PASSWORD
-DB_PORT=5432
-```
-
-Replace the password placeholder with your local PostgreSQL password.
-
-**Security note:** Never commit `.env` or publish database passwords. The repository's `.gitignore` should exclude `.env`.
+Create the required `bikes` and `rentals` tables and insert the initial bike records in your PostgreSQL database before running the application.
 
 ### 6. Start the application
 
@@ -113,69 +109,43 @@ Replace the password placeholder with your local PostgreSQL password.
 python app.py
 ```
 
-Open the local URL displayed in your terminal, typically:
+Open the local address displayed in your terminal, usually `http://127.0.0.1:5000`.
 
-```text
-http://127.0.0.1:5000/
-```
+## 🗃️ Database Overview
 
-## 💰 Rental Billing Logic
+The application uses two primary tables:
 
-The application calculates rental charges based on the bike's hourly rate and rental duration.
+- **`bikes`** — Stores bike IDs, names, hourly rental prices, and availability.
+- **`rentals`** — Stores rental IDs, bike IDs, rental and return timestamps, customer details, rental status, and total charges.
 
-- Partial hours are rounded up to the next full hour.
-- The minimum billable duration is one hour.
-- Total cost = billable hours × price per hour.
+## 📌 Project Highlights
 
-**Example:** A bike costing ₹100 per hour rented for 2 hours and 10 minutes is charged for 3 hours, giving a total of ₹300.
+This project demonstrates practical experience with:
 
-## 🗄️ Database Overview
+- Building a web application using Flask.
+- Connecting Python applications to PostgreSQL.
+- Implementing database-driven CRUD workflows.
+- Managing rental availability and return operations.
+- Calculating billing based on rental duration.
+- Using environment variables for database configuration.
+- Deploying a Python application with a cloud-hosted database.
 
-### Bikes
+## 🔮 Future Improvements
 
-Stores bike information such as:
-
-- Bike ID
-- Bike name
-- Price per hour
-- Availability status
-
-### Rentals
-
-Stores rental information such as:
-
-- Rental ID
-- Bike ID
-- Customer name and phone number
-- Rental and return timestamps
-- Rental status
-- Total cost
-
-A foreign key connects each rental to its bike record.
-
-## 🔒 Security and Configuration
-
-- Database credentials are loaded from `.env`.
-- `.env`, `.venv`, and Python cache files are excluded through `.gitignore`.
-- Do not commit real passwords, API keys, or personal customer data.
-- Use appropriate validation and security measures before deploying the application publicly.
-
-## 🔮 Future Enhancements
-
-- Customer registration and login
-- Online payment integration
-- Booking dates and time-slot management
-- Administrative authentication and role-based access
-- Downloadable PDF receipts
-- Revenue charts and analytics
-- Deployment to a cloud hosting platform
+- User authentication and role-based access.
+- An admin panel for managing bikes and rental rates.
+- Online payments and booking confirmations.
+- Rental reports and revenue analytics.
+- Automated database backups and monitoring.
 
 ## 👩‍💻 Author
 
 **Riya Jaiswal**
 
-B.Tech — Computer Science Engineering (Artificial Intelligence and Machine Learning)
+B.Tech Computer Science Engineering — AI & ML
 
-## 📄 License
+[GitHub Profile](https://github.com/riyaa11111)
 
-This project is intended for educational and portfolio purposes. Add a license file if you wish to specify permissions for reuse and distribution.
+---
+
+⭐ If you find this project useful, consider giving the repository a star!
