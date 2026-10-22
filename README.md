@@ -20,6 +20,23 @@ A web-based bike rental management system built with **Python, Flask, and Postgr
 - 📊 **Dashboard Statistics:** View key rental information.
 - 🗄️ **Persistent Database:** Store bike and rental records in PostgreSQL.
 
+## 📸 Project Screenshots
+
+### 1. Homepage
+![Rose & Ride Homepage](screenshots/4d9a7ac3-490e-417f-910e-eb81e09c3726.jpg)
+
+### 2. Bike Rental Interface
+![Bike Rental Interface](screenshots/719c6f33-2142-4184-b454-01db195ca276.jpg)
+
+### 3. Bike Availability
+![Bike Availability](screenshots/934e088a-d85e-40ec-b512-2d2bd0719bb3.jpg)
+
+### 4. Rental Management
+![Rental Management](screenshots/a67267bb-2e1a-4cbf-a036-9c034bcd6301.jpg)
+
+### 5. Rental Records and Dashboard
+![Rental Records and Dashboard](screenshots/b50436f3-c91e-49cc-a719-3d67f3a910dc.jpg)
+
 
 ## 🛠️ Tech Stack
 
