@@ -59,6 +59,10 @@ Try the deployed application:
 
 Note: The free web service may take a little time to wake up after a period of inactivity.
 
+## ScreenShots
+
+![Rose & Ride Homepage](screenshots)
+
 ## 💻 Run Locally
 
 ### Prerequisites
